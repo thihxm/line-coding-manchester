@@ -35,12 +35,32 @@ const options: LineOptions = {
   resizeDelay: 0,
   scales: {
     y: {
-      display: false,
+      min: -1,
+      max: 1,
+      ticks: {
+        stepSize: 1,
+        font: {
+          size: 16,
+          weight: '900',
+        },
+      },
+      grid: {
+        color: 'rgba(255, 255, 255, 0.2)',
+        z: 10,
+        lineWidth(ctx) {
+          if (ctx.index == 0) return 0
+          return ctx.tick.value == 0 ? 1 : 0
+        },
+      },
     },
     x: {
       display: false,
       // max: MAX_CHART_ITEMS,
       ticks: {
+        font: {
+          size: 16,
+          weight: '900',
+        },
         callback(value) {
           const index = value as number
           const realLabel = this.getLabelForValue(index)
@@ -57,9 +77,11 @@ const options: LineOptions = {
     xAxis2: {
       type: 'category',
       // max: MAX_CHART_ITEMS,
+      border: {
+        dash: [10, 10],
+      },
       grid: {
-        color: 'white',
-        tickColor: 'grey',
+        color: 'rgba(255, 255, 255, 1)',
         z: 10,
         lineWidth(ctx) {
           if (ctx.index == 0) return 0
@@ -67,6 +89,10 @@ const options: LineOptions = {
         },
       },
       ticks: {
+        font: {
+          size: 16,
+          weight: '900',
+        },
         callback(value) {
           const index = value as number
           const realLabel = this.getLabelForValue(index)

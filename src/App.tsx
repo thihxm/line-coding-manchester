@@ -18,9 +18,11 @@ function App() {
 
   const debouncedEncodedMessage = useDebounce(manchesterEncodedMessage.join(''))
 
-  const chartData = Array.from(debouncedEncodedMessage).map((bit) =>
-    Number.parseInt(bit, 10)
-  )
+  const chartData = Array.from(debouncedEncodedMessage).map((bit) => {
+    const bitAsNumber = Number.parseInt(bit, 10)
+
+    return bitAsNumber ? 1 : -1
+  })
 
   const binaryMessageAsArray = Array.from(binaryMessage.join(''))
   const labels = chartData.map((value, index) => {
