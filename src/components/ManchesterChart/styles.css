@@ -1,0 +1,8 @@
+.chart-container {
+  overflow-x: scroll;
+}
+
+.chart-body {
+  height: 500px;
+  width: 100%;
+}
