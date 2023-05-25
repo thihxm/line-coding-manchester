@@ -1,4 +1,3 @@
-import { invoke } from '@tauri-apps/api/tauri'
 import { ChangeEvent, useState } from 'react'
 
 import './App.css'
@@ -7,10 +6,11 @@ import { ManchesterLineChart } from './components/ManchesterChart'
 import { useDebounce } from './hooks/useDebounce'
 import { convertTextToBinaryText, encrypt, manchesterEncode } from './utils'
 
+import { useSocket } from './hooks/useSocket'
+
 function App() {
-  const [greetMsg, setGreetMsg] = useState('')
-  const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+  const [sendMessage] = useSocket()
 
   const encryptedMessage = encrypt(message)
   const binaryMessage = convertTextToBinaryText(encryptedMessage)
@@ -32,11 +32,6 @@ function App() {
 
   const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value)
-  }
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke('greet', { name }))
   }
 
   return (
@@ -70,15 +65,23 @@ function App() {
         <ManchesterLineChart labels={labels} chartData={chartData} />
       </Group>
 
-      <button
-        onClick={(e) => {
-          e.preventDefault()
-          greet()
-        }}
-      >
-        Greet
-      </button>
-      <p>{greetMsg}</p>
+      <Group>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            const isMessageEmpty = !manchesterEncodedMessage.join('')
+
+            if (isMessageEmpty) {
+              alert('Insira uma mensagem para enviar!')
+              return
+            }
+
+            sendMessage(manchesterEncodedMessage.join(''))
+          }}
+        >
+          Enviar Mensagem
+        </button>
+      </Group>
     </div>
   )
 }

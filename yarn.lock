@@ -362,7 +362,7 @@
   resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
-"@tauri-apps/api@^1.3.0":
+"@tauri-apps/api@^1.2.0", "@tauri-apps/api@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-1.3.0.tgz#d0c853ab2cc7506bd826c5f7f260c67c7c15def5"
   integrity sha512-AH+3FonkKZNtfRtGrObY38PrzEj4d+1emCbwNGu0V2ENbXjlLHMZQlUh+Bhu/CRmjaIwZMGJ3yFvWaZZgTHoog==
@@ -729,6 +729,12 @@ supports-color@^5.3.0:
   integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
   dependencies:
     has-flag "^3.0.0"
+
+"tauri-plugin-websocket-api@https://github.com/tauri-apps/tauri-plugin-websocket":
+  version "0.0.0"
+  resolved "https://github.com/tauri-apps/tauri-plugin-websocket#c77fa23243388bdeff6ca1b09f78b71b62ef01da"
+  dependencies:
+    "@tauri-apps/api" "^1.2.0"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
