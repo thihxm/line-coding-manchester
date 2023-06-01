@@ -1,11 +1,29 @@
 :root {
+  --white: #f6f6f6;
+  --white-700: hsl(210, 22%, 90%);
+  --black: #0a0d0f;
+  --gray-200: #d0d9e1;
+  --gray-500: #808e9b;
+  --gray-700: #485460;
+  --gray-900: #1e272e;
+  --red-200: #ff5e57;
+  --red-500: #ff3f34;
+  --blue-200: #4bcffa;
+  --blue-500: #0fbcf9;
+  --dark-blue-200: #575fcf;
+  --dark-blue-500: #3c40c6;
+  --yellow-200: #ffdd59
+  --yellow-500: #ffd32a;
+  --green-200: #0be881;
+  --green-500: #05c46b;
+
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
-  color: #0f0f0f;
-  background-color: #f6f6f6;
+  color: var(--black);
+  background-color: var(--white);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,49 +41,83 @@
   text-align: center;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
 h1 {
   text-align: center;
 }
 
 input,
 button {
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
+  color: var(--black);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+input {
+  background-color: var(--gray-200);
+}
+
+input:disabled {
+  color: var(--gray-700);
+  background-color: transparent;
+  cursor: not-allowed;
 }
 
 button {
   cursor: pointer;
+  color: var(--white);
+  background-color: var(--blue-500);
 }
 
-button:hover {
-  border-color: #396cd8;
+button:hover,
+button:active,
+button:focus {
+  background-color: var(--blue-200);
 }
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
+
+button:active,
+button:focus {
+  border-color: var(--blue-500);
 }
 
 input,
 button {
   outline: none;
+}
+
+input[data-transparent] {
+  background-color: transparent;
+  box-shadow: 0px 2px 0px 0px var(--blue-500);
+  border-radius: 0;
+}
+input[data-transparent]:disabled {
+  color: var(--black);
+}
+
+button[data-connected] {
+  width: 140px;
+  color: var(--black);
+  background-color: var(--gray-200);
+}
+button[data-connected="false"]:hover,
+button[data-connected="false"]:active,
+button[data-connected="false"]:focus {
+  color: var(--white);
+  background-color: var(--blue-500);
+}
+button[data-connected="true"] {
+  color: var(--white);
+  background-color: var(--red-500);
+}
+button[data-connected="true"]:hover,
+button[data-connected="true"]:active,
+button[data-connected="true"]:focus {
+  background-color: var(--red-200);
 }
 
 #greet-input {
@@ -74,20 +126,50 @@ button {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+    color: var(--white);
+    background-color: var(--black);
   }
 
-  a:hover {
-    color: #24c8db;
+  input {
+    color: var(--white);
+    background-color: var(--gray-900);
   }
 
-  input,
+  input:disabled {
+    color: var(--gray-500);
+  }
+
+  input[data-transparent] {
+    box-shadow: 0px 2px 0px 0px var(--dark-blue-500);
+  }
+  input[data-transparent]:disabled {
+    color: var(--white);
+  }
+  
+
+
   button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+    color: var(--white);
+    background-color: var(--dark-blue-500);
   }
-  button:active {
-    background-color: #0f0f0f69;
+
+  button:hover,
+  button:active,
+  button:focus {
+    background-color: var(--dark-blue-200);
+  }
+
+  button:active,
+  button:focus {
+    border-color: var(--dark-blue-500);
+  }
+
+  button[data-connected] {
+    background-color: var(--gray-500);
+  }
+  button[data-connected="false"]:hover,
+  button[data-connected="false"]:active,
+  button[data-connected="false"]:focus {
+    background-color: var(--dark-blue-500);
   }
 }

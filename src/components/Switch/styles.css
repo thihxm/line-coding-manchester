@@ -1,13 +1,20 @@
 .switch {
-  --slider-color-checked: #2196f3;
-  --slider-color: #ccc;
-  --toggle-color: #fff;
+  --slider-color-checked: var(--blue-500);
+  --slider-color: var(--gray-200);
+  --toggle-color: var(--white);
   --animation-duration: 0.3s;
   --corner-radius: 1000vw;
 
   --height: 34px;
   --width: 100px;
   --padding: 4px;
+}
+@media (prefers-color-scheme: dark) {
+  .switch {
+    --slider-color-checked: var(--dark-blue-500);
+    --slider-color: var(--gray-500);
+    --toggle-color: var(--white);
+  }
 }
 
 .switch {

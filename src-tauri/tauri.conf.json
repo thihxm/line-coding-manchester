@@ -16,6 +16,9 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "dialog": {
+        "all": true
       }
     },
     "bundle": {
@@ -38,6 +41,7 @@
     },
     "windows": [
       {
+        "theme": "light",
         "fullscreen": false,
         "resizable": true,
         "label": "server",
@@ -46,6 +50,7 @@
         "height": 600
       },
       {
+        "theme": "light",
         "fullscreen": false,
         "resizable": true,
         "label": "client",

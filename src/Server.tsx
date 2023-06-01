@@ -7,6 +7,7 @@ import { useDebounce } from './hooks/useDebounce'
 import { convertTextToBinaryText, encrypt, manchesterEncode } from './utils'
 
 import { invoke } from '@tauri-apps/api'
+import { message as dialogMessage } from '@tauri-apps/api/dialog'
 
 function Server() {
   const [message, setMessage] = useState('')
@@ -44,9 +45,26 @@ function Server() {
     invoke('send_server_message', { binaryArray })
   }
 
+  const handleSendMessageClick = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault()
+    const isMessageEmpty = !manchesterEncodedMessage.join('')
+
+    if (isMessageEmpty) {
+      await dialogMessage('A mensagem não pode ser vazia!', {
+        title: 'Mensagem inválida',
+        type: 'error',
+      })
+      return
+    }
+
+    sendMessage(manchesterEncodedMessage.join(''))
+  }
+
   return (
     <div className="container">
-      <Group>
+      <Group label="Mensagem">
         <input
           id="message"
           type="text"
@@ -55,6 +73,7 @@ function Server() {
           autoComplete="off"
           autoCorrect="off"
           spellCheck="false"
+          data-transparent
           placeholder="Insira a mensagem..."
           className="msg-input"
         />
@@ -74,21 +93,7 @@ function Server() {
       </Group>
 
       <Group>
-        <button
-          onClick={async (e) => {
-            e.preventDefault()
-            const isMessageEmpty = !manchesterEncodedMessage.join('')
-
-            if (isMessageEmpty) {
-              alert('Insira uma mensagem para enviar!')
-              return
-            }
-
-            sendMessage(manchesterEncodedMessage.join(''))
-          }}
-        >
-          Enviar Mensagem
-        </button>
+        <button onClick={handleSendMessageClick}>Enviar Mensagem</button>
       </Group>
     </div>
   )

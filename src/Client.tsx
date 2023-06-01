@@ -83,7 +83,7 @@ export function Client() {
           disabled={isConnected}
           onChange={handleServerIPChange}
         />
-        <button onClick={handleConnectToServer}>
+        <button onClick={handleConnectToServer} data-connected={isConnected}>
           {isConnected ? 'Desconectar' : 'Conectar'}
         </button>
       </div>
@@ -100,7 +100,7 @@ export function Client() {
         <p>{encryptedMessage}&nbsp;</p>
       </Group>
 
-      <Group>
+      <Group label="Mensagem">
         <input
           id="message"
           type="text"
@@ -110,6 +110,7 @@ export function Client() {
           spellCheck="false"
           placeholder="Esperando mensagem..."
           disabled
+          data-transparent
           className="msg-input"
         />
       </Group>
