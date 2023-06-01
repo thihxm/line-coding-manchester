@@ -18,3 +18,22 @@ h6,
 p {
   margin: 0;
 }
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.header .right {
+  margin-left: auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}

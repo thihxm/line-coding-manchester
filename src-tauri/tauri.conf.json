@@ -40,9 +40,18 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "codigo-linha-manchester",
+        "label": "server",
+        "title": "Servidor",
         "width": 800,
         "height": 600
+      },
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "label": "client",
+        "title": "Cliente",
+        "width": 800,
+        "height": 900
       }
     ]
   }
