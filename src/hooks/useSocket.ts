@@ -1,16 +1,17 @@
-import { appWindow } from '@tauri-apps/api/window'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import WebSocket, { Message } from 'tauri-plugin-websocket-api'
 
 interface UseSocketProps {
   host?: string
   port?: number
   onMessage?: (message: Message) => void
+  onConnectionError?: (error: Error) => void
 }
 export function useSocket({
   host = 'localhost',
   port = 7896,
   onMessage,
+  onConnectionError,
 }: UseSocketProps) {
   let ws = useRef<WebSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -18,32 +19,36 @@ export function useSocket({
   const createConnection = async () => {
     ws.current = await WebSocket.connect(`ws://${host}:${port}`)
       .then((connection) => {
-        console.log(
-          appWindow.label,
-          'connected to the server with id',
-          connection.id
-        )
         setIsConnected(true)
+        if (onMessage) {
+          connection.addListener((message) => {
+            onMessage(message)
+          })
+        }
         return connection
       })
       .catch((err) => {
-        console.error(err)
-        return null
+        onConnectionError?.(err)
+        return err
       })
   }
-  useEffect(() => {
-    createConnection().then(() => {
-      if (onMessage) {
-        ws.current?.addListener((message) => {
-          onMessage(message)
-        })
-      }
-    })
+  // useEffect(() => {
+  //   createConnection()
+  //     .then(() => {
+  //       if (onMessage) {
+  //         ws.current?.addListener((message) => {
+  //           onMessage(message)
+  //         })
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       onConnectionError?.(err)
+  //     })
 
-    return () => {
-      disconnect()
-    }
-  }, [ws.current])
+  //   return () => {
+  //     disconnect()
+  //   }
+  // }, [ws.current])
 
   const disconnect = async () => {
     if (!ws.current) {
@@ -51,7 +56,6 @@ export function useSocket({
     }
     ws.current.disconnect()
     setIsConnected(false)
-    console.log('Closed websocket connection')
   }
 
   const addListener = (listener: (message: Message) => void) => {

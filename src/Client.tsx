@@ -1,4 +1,4 @@
-import { appWindow } from '@tauri-apps/api/window'
+import { message as dialogMessage } from '@tauri-apps/api/dialog'
 import { useCallback, useEffect, useState } from 'react'
 import { Message } from 'tauri-plugin-websocket-api'
 import './App.css'
@@ -15,7 +15,6 @@ export function Client() {
 
   const onMessage = useCallback((message: Message) => {
     if (message.type !== 'Binary') return
-    console.log(appWindow.label, 'Received message:', message.data.join(''))
 
     const messageAsStringArray = message.data.reduce((array, bit, index) => {
       const charIndex = Math.floor(index / 16)
@@ -30,9 +29,17 @@ export function Client() {
     setManchesterEncodedMessage(messageAsStringArray)
   }, [])
 
+  const onConnectionError = useCallback(async () => {
+    await dialogMessage('Não foi possível conectar ao servidor!', {
+      title: 'Erro de conexão',
+      type: 'error',
+    })
+  }, [])
+
   const [createConnection, disconnect, addListener, isConnected] = useSocket({
     host: serverIP || undefined,
     onMessage,
+    onConnectionError,
   })
 
   const binaryMessage = manchesterDecode(manchesterEncodedMessage)
@@ -62,6 +69,7 @@ export function Client() {
       await createConnection()
     } else {
       await disconnect()
+      setManchesterEncodedMessage([])
     }
   }
 

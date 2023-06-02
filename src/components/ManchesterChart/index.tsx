@@ -15,6 +15,8 @@ import {
 import { Line } from 'react-chartjs-2'
 
 import { _DeepPartialObject } from 'chart.js/dist/types/utils'
+import { useMemo } from 'react'
+import { useColorScheme } from '../../hooks/useColorScheme'
 import './styles.css'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title)
@@ -28,87 +30,88 @@ type LineOptions = _DeepPartialObject<
     LineControllerChartOptions
 >
 
-const options: LineOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: false,
-  resizeDelay: 0,
-  scales: {
-    y: {
-      min: -1,
-      max: 1,
-      ticks: {
-        stepSize: 1,
-        font: {
-          size: 16,
-          weight: '900',
+const getChartOptions = (isDarkTheme: boolean = false) =>
+  ({
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: false,
+    resizeDelay: 0,
+    scales: {
+      y: {
+        min: -1,
+        max: 1,
+        ticks: {
+          stepSize: 1,
+          font: {
+            size: 16,
+            weight: '900',
+          },
+        },
+        grid: {
+          color: isDarkTheme ? 'rgb(255 255 255 / 0.2)' : 'rgb(0 0 0 / 0.2)',
+          z: 10,
+          lineWidth(ctx) {
+            if (ctx.index == 0) return 0
+            return ctx.tick.value == 0 ? 1 : 0
+          },
         },
       },
-      grid: {
-        color: 'rgba(255, 255, 255, 0.2)',
-        z: 10,
-        lineWidth(ctx) {
-          if (ctx.index == 0) return 0
-          return ctx.tick.value == 0 ? 1 : 0
-        },
-      },
-    },
-    x: {
-      display: false,
-      // max: MAX_CHART_ITEMS,
-      ticks: {
-        font: {
-          size: 16,
-          weight: '900',
-        },
-        callback(value) {
-          const index = value as number
-          const realLabel = this.getLabelForValue(index)
-          if (!realLabel) return ''
+      x: {
+        display: false,
+        // max: MAX_CHART_ITEMS,
+        ticks: {
+          font: {
+            size: 16,
+            weight: '900',
+          },
+          callback(value) {
+            const index = value as number
+            const realLabel = this.getLabelForValue(index)
+            if (!realLabel) return ''
 
-          const manchesterEncodedMessageBit = realLabel.split(';')[0]
-          return manchesterEncodedMessageBit
+            const manchesterEncodedMessageBit = realLabel.split(';')[0]
+            return manchesterEncodedMessageBit
+          },
+        },
+        grid: {
+          drawOnChartArea: false,
         },
       },
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-    xAxis2: {
-      type: 'category',
-      // max: MAX_CHART_ITEMS,
-      border: {
-        dash: [10, 10],
-      },
-      grid: {
-        color: 'rgba(255, 255, 255, 1)',
-        z: 10,
-        lineWidth(ctx) {
-          if (ctx.index == 0) return 0
-          return ctx.index % 2 == 0 ? 1 : 0
+      xAxis2: {
+        type: 'category',
+        // max: MAX_CHART_ITEMS,
+        border: {
+          dash: [10, 10],
         },
-      },
-      ticks: {
-        font: {
-          size: 16,
-          weight: '900',
+        grid: {
+          color: isDarkTheme ? `rgb(255 255 255 / 1)` : `rgb(0 0 0 / 1)`,
+          z: 10,
+          lineWidth(ctx) {
+            if (ctx.index == 0) return 0
+            return ctx.index % 2 == 0 ? 2 : 0
+          },
         },
-        callback(value) {
-          const index = value as number
-          const realLabel = this.getLabelForValue(index)
-          if (!realLabel) return ''
+        ticks: {
+          font: {
+            size: 16,
+            weight: '900',
+          },
+          callback(value) {
+            const index = value as number
+            const realLabel = this.getLabelForValue(index)
+            if (!realLabel) return ''
 
-          const binaryMessageBit = realLabel.split(';')[1]
-          if (index % 2 === 1) {
-            return binaryMessageBit
-          } else {
-            return ''
-          }
+            const binaryMessageBit = realLabel.split(';')[1]
+            if (index % 2 === 1) {
+              return binaryMessageBit
+            } else {
+              return ''
+            }
+          },
         },
       },
     },
-  },
-}
+  } as LineOptions)
 
 const MIN_ITEMS_TO_DYNAMICALLY_RESIZE = 40
 const MAX_ITEM_WIDTH = 35
@@ -126,6 +129,13 @@ export function ManchesterLineChart({
   const chartWidth =
     MAX_ITEM_WIDTH * (chartData.length - MIN_ITEMS_TO_DYNAMICALLY_RESIZE)
 
+  const colorScheme = useColorScheme()
+
+  const chartOptions = useMemo(
+    () => getChartOptions(colorScheme === 'dark'),
+    [colorScheme]
+  )
+
   return (
     <div className="chart-container">
       <div
@@ -136,15 +146,15 @@ export function ManchesterLineChart({
       >
         <Line
           title="Gráfico Codificação Manchester"
-          options={options}
+          options={chartOptions}
           data={{
             labels,
             datasets: [
               {
                 label: 'Manchester',
                 data: chartData,
-                borderColor: 'rgba(255, 99, 132, 0.5)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgb(255 63 52)',
+                backgroundColor: 'rgb(255 63 52)',
                 stepped: true,
                 pointRadius: 0,
               },

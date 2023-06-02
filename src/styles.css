@@ -172,4 +172,13 @@ button[data-connected="true"]:focus {
   button[data-connected="false"]:focus {
     background-color: var(--dark-blue-500);
   }
+  button[data-connected="true"] {
+    color: var(--white);
+    background-color: var(--red-500);
+  }
+  button[data-connected="true"]:hover,
+  button[data-connected="true"]:active,
+  button[data-connected="true"]:focus {
+    background-color: var(--red-200);
+  }
 }
