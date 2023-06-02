@@ -46,7 +46,9 @@
         "label": "server",
         "title": "Servidor",
         "width": 800,
-        "height": 600
+        "height": 900,
+        "x": 50.0,
+        "y": 0.0
       },
       {
         "fullscreen": false,
@@ -54,7 +56,9 @@
         "label": "client",
         "title": "Cliente",
         "width": 800,
-        "height": 900
+        "height": 900,
+        "x": 900.0,
+        "y": 0.0
       }
     ]
   }
