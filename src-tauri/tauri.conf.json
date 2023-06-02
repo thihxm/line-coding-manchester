@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "br.dev.thihxm.codigo-linha-manchester",
       "targets": "all"
     },
     "security": {
