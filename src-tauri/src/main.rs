@@ -32,7 +32,7 @@ fn start_server(shared_state: State<ClientsConnection>) -> bool {
 }
 
 async fn setup_server(state: PeerMap) {
-  let addr = env::args().nth(1).unwrap_or_else(|| "127.0.0.1:7896".to_string());
+  let addr = env::args().nth(1).unwrap_or_else(|| "0.0.0.0:7896".to_string());
   
   // Create the event loop and TCP listener we'll accept connections on.
   let try_socket = TcpListener::bind(&addr).await;
