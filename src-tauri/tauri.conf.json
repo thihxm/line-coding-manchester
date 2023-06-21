@@ -43,21 +43,11 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "label": "server",
-        "title": "Servidor",
+        "label": "app",
+        "title": "Código de Linha Manchester",
         "width": 800,
         "height": 900,
         "x": 50.0,
-        "y": 0.0
-      },
-      {
-        "fullscreen": false,
-        "resizable": true,
-        "label": "client",
-        "title": "Cliente",
-        "width": 800,
-        "height": 900,
-        "x": 900.0,
         "y": 0.0
       }
     ]
